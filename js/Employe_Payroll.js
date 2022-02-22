@@ -133,3 +133,20 @@ function save(){
         console.log(e);
     }
 }
+
+window.addEventListener('DOMContentLoaded',(event)=>{
+    const name = document.querySelector('#name');
+    const nameerror = document.querySelector('.text-error');
+    name.addEventListener('input',function() {
+        if(name.value.length == 0) {
+            nameerror.textContent = '';
+            return;
+        }
+        try{
+            (new Employee_Payroll()).name = name.value;
+            nameerror.textContent='';
+        } catch(e) {
+            nameerror.textContent = e;
+        }
+    });
+});
