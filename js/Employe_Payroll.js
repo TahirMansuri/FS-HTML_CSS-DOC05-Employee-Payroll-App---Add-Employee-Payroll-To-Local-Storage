@@ -28,7 +28,7 @@ class Employee_Payroll{
 
     set name(name) {
         var pattern = RegExp('^[A-Z]{1}[a-zA-Z]{2,}$');
-        if(pattern.test(name.value))
+        if(pattern.test(name))
             this._name = name;
         else throw 'Invalid First Name.';
     }
@@ -124,10 +124,12 @@ function save(){
     const notes = document.querySelector('#notes');
     console.log(notes.value);
     // console.log(name.value+"\n"+gender.value+"\n"+department.value+"\n"+salary.value+"\n"+dd.value+"\n"+mm.value+"\n"+yy.value+"\n"+notes.value);
+    var employeePayroll;
     try
     {
-        var employeePayroll = new Employee_Payroll(name.value,gender.value,deptArr,salary.value,day.value,month.value,year.value,notes.value);
+        employeePayroll = new Employee_Payroll(name.value,gender.value,deptArr,salary.value,day.value,month.value,year.value,notes.value);
         employeePayroll.toString();    
+        createAndUpdateStorage(employeePayroll);
     }
     catch(e) {
         console.log(e);
@@ -150,3 +152,14 @@ window.addEventListener('DOMContentLoaded',(event)=>{
         }
     });
 });
+
+function createAndUpdateStorage(employeePayroll) {
+    let employeePayrollList = JSON.parse(localStorage.getItem("EmployeePayrollList"));
+    if(employeePayrollList != undefined) {
+        employeePayrollList.push(employeePayroll);
+    } else {
+        employeePayrollList = [employeePayroll];
+    }
+    alert(employeePayrollList.toString());
+    localStorage.setItem("EmployeePayrollList",JSON.stringify(employeePayrollList));
+}
